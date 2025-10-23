@@ -1,0 +1,16 @@
+\chapter{Background and Related Work}
+\label{ch:background_related}
+
+This chapter reviews prior work relevant to the thesis. We first discuss synthetic data generation approaches for microscopy, then parametric representations for shape modeling, and finally temporal modeling methods for dynamic cell morphology.
+
+\section{Synthetic data generation for microscopy}
+Synthetic microscopy data can be synthesized end-to-end with deep generative models (GANs, diffusion models) that directly output textured images and annotations, or following modular pipelines that separate shape/phantom generation, spatial positioning, and texture synthesis. End-to-end approaches can achieve high visual realism but often lack instance-level control and require large annotated datasets for training. Modular approaches provide fine-grained control on annotations and facilitate mixing synthetic phantoms with real textures or domain-specific placement strategies.
+
+\section{Parametric representations of cell shapes}
+Parametric shape models represent object contours using compact sets of parameters. Elliptical Fourier Descriptors (EFDs) are a popular choice for closed contours: they decompose the boundary into harmonic components, offering geometric interpretability and good compression for approximately elliptical objects like many cells. Alternative approaches include statistical shape models (PCA-based SSMs) and landmark-based descriptors; SSMs capture dataset-specific modes but may lack the interpretable harmonic structure of EFDs.
+
+\section{Temporal modeling of morphology}
+Modeling temporal evolution of shapes can be addressed with sequence models (RNNs, LSTMs, ConvLSTMs) or by using autoregressive statistical models. ConvLSTM-like architectures combine convolutional operations with recurrent connections, suitable when the representation has spatial or channel-wise locality. Forecasting strategies include direct multi-step prediction and autoregressive one-step-ahead prediction with scheduled sampling to reduce exposure bias.
+
+\section{Open challenges and gap analysis}
+Existing literature rarely focuses on instance-level shape generation as a primary objective; most works either synthesize entire images or apply simple geometric primitives for phantoms. Temporal modeling is also underexplored in the context of parametric descriptors like EFDs. This thesis addresses these gaps by proposing a parametric, EFD-based framework for both static and dynamic instance-level cell generation.
