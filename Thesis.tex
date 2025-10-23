@@ -1,0 +1,505 @@
+% A LaTeX template for MSc Thesis submissions to 
+% Politecnico di Milano (PoliMi) - School of Industrial and Information Engineering
+%
+% S. Bonetti, A. Gruttadauria, G. Mescolini, A. Zingaro
+% e-mail: template-tesi-ingind@polimi.it
+%
+% Last Revision: October 2021
+%
+% Copyright 2021 Politecnico di Milano, Italy. NC-BY
+
+\documentclass{Configuration_Files/PoliMi3i_thesis}
+
+%------------------------------------------------------------------------------
+%	REQUIRED PACKAGES AND  CONFIGURATIONS
+%------------------------------------------------------------------------------
+
+% CONFIGURATIONS
+\usepackage{parskip} % For paragraph layout
+\usepackage{setspace} % For using single or double spacing
+\usepackage{emptypage} % To insert empty pages
+\usepackage{multicol} % To write in multiple columns (executive summary)
+\setlength\columnsep{15pt} % Column separation in executive summary
+\setlength\parindent{0pt} % Indentation
+\raggedbottom  
+
+% PACKAGES FOR TITLES
+\usepackage{titlesec}
+% \titlespacing{\section}{left spacing}{before spacing}{after spacing}
+\titlespacing{\section}{0pt}{3.3ex}{2ex}
+\titlespacing{\subsection}{0pt}{3.3ex}{1.65ex}
+\titlespacing{\subsubsection}{0pt}{3.3ex}{1ex}
+\usepackage{color}
+
+% PACKAGES FOR LANGUAGE AND FONT
+\usepackage[english]{babel} % The document is in English  
+\usepackage[utf8]{inputenc} % UTF8 encoding
+\usepackage[T1]{fontenc} % Font encoding
+\usepackage[11pt]{moresize} % Big fonts
+
+% PACKAGES FOR IMAGES
+\usepackage{graphicx}
+\usepackage{transparent} % Enables transparent images
+\usepackage{eso-pic} % For the background picture on the title page
+\usepackage{subfig} % Numbered and caption subfigures using \subfloat.
+\usepackage{tikz} % A package for high-quality hand-made figures.
+\usetikzlibrary{}
+\graphicspath{{./Images/}} % Directory of the images
+\usepackage{caption} % Coloured captions
+\usepackage{xcolor} % Coloured captions
+\usepackage{amsthm,thmtools,xcolor} % Coloured "Theorem"
+\usepackage{float}
+
+% STANDARD MATH PACKAGES
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{bm}
+\usepackage[overload]{empheq} % For braced-style systems of equations.
+\usepackage{fix-cm} % To override original LaTeX restrictions on sizes
+
+% PACKAGES FOR TABLES
+\usepackage{tabularx}
+\usepackage{longtable} % Tables that can span several pages
+\usepackage{colortbl}
+
+% PACKAGES FOR ALGORITHMS (PSEUDO-CODE)
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+% PACKAGES FOR REFERENCES & BIBLIOGRAPHY
+\usepackage[colorlinks=true,linkcolor=black,anchorcolor=black,citecolor=black,filecolor=black,menucolor=black,runcolor=black,urlcolor=black]{hyperref} % Adds clickable links at references
+\usepackage{cleveref}
+\usepackage[square, numbers, sort&compress]{natbib} % Square brackets, citing references with numbers, citations sorted by appearance in the text and compressed
+\bibliographystyle{abbrvnat} % You may use a different style adapted to your field
+
+% OTHER PACKAGES
+\usepackage{pdfpages} % To include a pdf file
+\usepackage{afterpage}
+\usepackage{lipsum} % DUMMY PACKAGE
+\usepackage{fancyhdr} % For the headers
+\fancyhf{}
+
+% Input of configuration file. Do not change config.tex file unless you really know what you are doing. 
+\input{Configuration_Files/config}
+
+%----------------------------------------------------------------------------
+%	NEW COMMANDS DEFINED
+%----------------------------------------------------------------------------
+
+% EXAMPLES OF NEW COMMANDS
+\newcommand{\bea}{\begin{eqnarray}} % Shortcut for equation arrays
+\newcommand{\eea}{\end{eqnarray}}
+\newcommand{\e}[1]{\times 10^{#1}}  % Powers of 10 notation
+
+%----------------------------------------------------------------------------
+%	ADD YOUR PACKAGES (be careful of package interaction)
+%----------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------
+%	ADD YOUR DEFINITIONS AND COMMANDS (be careful of existing commands)
+%----------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------
+%	BEGIN OF YOUR DOCUMENT
+%----------------------------------------------------------------------------
+
+\begin{document}
+
+\fancypagestyle{plain}{%
+\fancyhf{} % Clear all header and footer fields
+\fancyhead[RO,RE]{\thepage} %RO=right odd, RE=right even
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}}
+
+%----------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------
+
+\pagestyle{empty} % No page numbers
+\frontmatter % Use roman page numbering style (i, ii, iii, iv...) for the preamble pages
+
+\puttitle{
+	title=A Parametric Approach for Instance-level Cell Generation, % Title of the thesis
+	name=Francesco Benedetto, % Author Name and Surname
+	course=Biomedical Engineering - Ingegneria Biomedica, % Study Programme (in Italian)
+	ID  = 225776,  % Student ID number (numero di matricola)
+	advisor= Prof. Giacomo Boracchi, % Supervisor name
+	coadvisor={Roberto Basla, Luca Magri}, % Co-Supervisor name, remove this line if there is none
+	academicyear={2024-25},  % Academic Year
+} % These info will be put into your Title page 
+
+%----------------------------------------------------------------------------
+%	PREAMBLE PAGES: ABSTRACT (inglese e italiano), EXECUTIVE SUMMARY
+%----------------------------------------------------------------------------
+\startpreamble
+\setcounter{page}{1} % Set page counter to 1
+% ABSTRACT IN ENGLISH
+\chapter*{Abstract} 
+Deep Learning models for instance segmentation represent the current State-of-the-Art for automating Cell Segmentation and Tracking tasks in histological imaging. These models, however, require large annotated datasets for training, which are expensive and time-consuming to obtain. Annotations rely on domain experts manually tracing cell boundaries in tissue images and videos, making data availability a major bottleneck that limits research in critical domains including cancer research, drug development, and tissue analysis.
+We tackle this data scarcity problem by proposing a novel generative framework for Instance-level Cell generation. Unlike existing Synthetic Data Generation methods that produce entire histological images in a single step or operate directly in pixel space, we propose a parametric approach based on \textit{Elliptical Fourier Descriptors} (EFDs). This parametric representation enables efficient generation of single cell masks in a low-dimensional parametric domain rather than in high-dimensional spatial space, ensuring computational efficiency and scalability—fundamental requirements for reproducible and practical large-scale data augmentation.
+We test our method on the Fluo-N2DL-HeLa dataset, evaluating both static (single images) and dynamic generation (video sequences). For static generation, our parametric approach achieves Deep Learning performance in terms of morphological realism while maintaining computational efficiency through lightweight training. For dynamic generation, our framework outperforms existing baseline in both morphological realism and temporal dynamics of shape evolution. Our synthesis scheme provides an efficient solution to produce biologically plausible synthetic cell masks that can be integrated into complete synthesis pipelines, decreasing the experts' effort in annotating ground truth for training Deep Learning models in the biomedical domains.
+\\
+\\
+\textbf{Keywords:} Synthetic Data Generation, Cell Segmentation, \textit{Elliptical Fourier Descriptors}, parametric representation, temporal modeling, Deep Learning 
+
+% ABSTRACT IN ITALIAN
+\chapter*{Abstract in lingua italiana}
+I modelli di Deep Learning per la segmentazione di istanze rappresentano lo Stato dell'Arte attuale per l'automazione dei compiti di Segmentazione e Tracciamento Cellulare nell'imaging istologico. Tuttavia, questi modelli richiedono grandi dataset annotati per l'addestramento, che sono costosi e richiedono molto tempo per essere ottenuti. Le annotazioni si basano su esperti del settore che tracciano manualmente i confini delle cellule in immagini e video di tessuti, rendendo la disponibilità di dati un importante collo di bottiglia che limita la ricerca in domini critici tra cui la ricerca sul cancro, lo sviluppo di farmaci e l'analisi dei tessuti.
+Affrontiamo questo problema di scarsità di dati proponendo un nuovo framework generativo per la generazione di cellule a livello di istanza. A differenza dei metodi di Generazione di Dati Sintetici esistenti che producono intere immagini istologiche in un singolo passaggio o operano direttamente nello spazio dei pixel, proponiamo un approccio parametrico basato su \textit{Elliptical Fourier Descriptors} (EFD). Questa rappresentazione parametrica consente una generazione efficiente di maschere di singole cellule in un dominio parametrico a bassa dimensionalità piuttosto che in uno spazio spaziale ad alta dimensionalità, garantendo efficienza computazionale e scalabilità—requisiti fondamentali per un'augmentation dei dati su larga scala riproducibile e pratica.
+Testiamo il nostro metodo sul dataset Fluo-N2DL-HeLa, valutando sia la generazione statica (immagini singole) che quella dinamica (sequenze video). Per la generazione statica, il nostro approccio parametrico raggiunge prestazioni di Deep Learning in termini di realismo morfologico mantenendo l'efficienza computazionale attraverso un addestramento leggero. Per la generazione dinamica, il nostro framework supera la baseline esistente sia in termini di realismo morfologico che di dinamica temporale dell'evoluzione della forma. Il nostro schema di sintesi fornisce una soluzione efficiente per produrre maschere di cellule sintetiche biologicamente plausibili che possono essere integrate in pipeline di sintesi complete, diminuendo lo sforzo degli esperti nell'annotare ground truth per l'addestramento di modelli di Deep Learning nei domini biomedici.
+\\
+\\
+\textbf{Parole chiave:} Generazione di Dati Sintetici, Segmentazione Cellulare, \textit{Elliptical Fourier Descriptors}, rappresentazione parametrica, modellazione temporale, Deep Learning
+%----------------------------------------------------------------------------
+%	LIST OF CONTENTS/FIGURES/TABLES/SYMBOLS
+%----------------------------------------------------------------------------
+
+% TABLE OF CONTENTS
+\thispagestyle{empty}
+\tableofcontents % Table of contents 
+\thispagestyle{empty}
+\cleardoublepage
+
+%-------------------------------------------------------------------------
+%	THESIS MAIN TEXT
+%-------------------------------------------------------------------------
+% In the main text of your thesis you can write the chapters in two different ways:
+%
+%(1) As presented in this template you can write:
+%    \chapter{Title of the chapter}
+%    *body of the chapter*
+%
+%(2) You can write your chapter in a separated .tex file and then include it in the main file with the following command:
+%    \chapter{Title of the chapter}
+%    \input{chapter_file.tex}
+%
+% Especially for long thesis, we recommend you the second option.
+
+\addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
+\mainmatter % Begin numeric (1,2,3...) page numbering
+
+% --------------------------------------------------------------------------
+% NUMBERED CHAPTERS % Regular chapters following
+% --------------------------------------------------------------------------
+\chapter*{Introduction}
+
+Deep Learning (DL) models for Instance Segmentation represent the current State-of-the-Art for automating Cell Segmentation and dynamic Cell Tracking tasks in biomedical imaging. These models have demonstrated high potential in identifying and outlining individual cells within tissue samples images and videos. However, the success of these data-driven architectures critically depends on the availability of large annotated datasets for training, which represents a major limitation in the biomedical domain.
+
+In fact, especially in histological applications, creating high quality annotations requires domain experts—typically pathologists or trained biologists—to manually create binary segmentation masks by tracing individual cell boundaries. This process requires not only specialized expertise but also significant time investment. Moreover, this task becomes even more complex in dynamic scenarios, where experts must track cells across multiple temporal frames while maintaining consistent labeling. This process is consequently expensive and time-consuming, thus limiting the availability of training data and creating a significant bottleneck in the development of DL-based segmentation models.
+
+Such data scarcity problem is therefore particularly critical as it limits the full use of DL capabilities in quantitative biomedical research. This problem manifests in several key areas, including cancer research, drug development, and tissue analysis, where accurate Cell Segmentation and Tracking are essential for both scientific and clinical applications.
+
+Among the various strategies employed to address this bottleneck, Synthetic Data Generation has emerged as a promising but challenging approach. Here, the idea is to automatically generate artificial training samples that can augment limited real datasets, thus reducing the labeling effort. However, the value of this approach is fundamentally dependent on the realism of the generated data, that depends primarily on synthesizing high quality individual cell shapes. Such instance-level cell geometries must accurately capture the highly variable and complex morphologies exhibited across different cellular populations, and at the same time their generation should be computationally efficient for large scale applications. Additionally, in dynamic settings, the synthetic cells should also model realistic temporal dynamics of cell shape evolution, reflecting biological processes such as the mitotic cycle.
+
+Although these challenges have motivated the development of various Synthetic Data Generation frameworks in recent years, available works in the literature face several critical limitations. First, most existing strategies focus primarily on synthesizing entire histological images or videos in an end-to-end manner with black-box DL models, treating generation as a single step. While this approach can produce visually realistic texturized outputs, it provides limited control and interpretability over individual cellular entities and their annotations. Second, traditional approaches that typically rely on pixel-based representations, lack computational efficiency as they process and generate data at the full image resolution, requiring important computational resources and prohibitive training times. This computational cost limits their scalability and practical deployment. Third, existing methods often struggle to accurately model the temporal dynamics of individual cell shape changes in videos, leading to synthetic data that may not faithfully represent biological processes over time.
+
+To overcome these limitations, we introduce a novel generative framework that produces binary masks of individual cell instances using a parametric representation based on \textit{Elliptical Fourier Descriptors} (EFDs) instead of operating in the traditional pixel domain. By encoding cell shapes as compact set of descriptors, our approach dramatically reduces the dimensionality of the generation problem, moving from high-dimensional pixel space to a low-dimensional parametric space. Beyond being computationally efficient, this methodological choice is also geometrically interpretable, as each harmonic component of the EFDs representation has a clear geometric meaning and can easily model temporal dynamics, as the compact parametric space facilitates learning temporal trajectories for video generation. These properties make our approach particularly suitable for generating cell phantoms in both static settings (individual images) and dynamic settings (temporal sequences), addressing the needs of both Cell Segmentation and Cell Tracking applications. Our experiments demonstrate that this parametric method efficiently generates morphologically variable and biologically plausible synthetic data that can effectively augment limited real annotations, achieving higher fidelity and better morphological realism than similar generative methods while maintaining superior computational efficiency and explainability. This work therefore provides a significant step towards addressing the data scarcity challenges that currently limit the application of Deep Learning in biomedical imaging.
+
+\chapter{Chapter one}
+\label{ch:chapter_one}%
+% The \label{...}% enables to remove the small indentation that is generated, always leave the % symbol.
+
+In this chapter additional useful information are reported.
+
+\section{Sections and subsections}
+\label{sec:section_name}
+Chapters are typically subdivided into sections and subsections, and, optionally,
+subsubsections, paragraphs and subparagraphs.
+All can have a title, but only sections and subsections are numbered.
+A new section is created by the command
+\begin{verbatim}
+\section{Title of the section}
+\end{verbatim}
+The numbering can be turned off by using \verb|\section*{}|.
+\\
+A new subsection is created by the command
+\begin{verbatim}
+\subsection{Title of the subsection}
+\end{verbatim}
+and, similarly, the numbering can be turned off by adding an asterisk as follows 
+\begin{verbatim}
+\subsection*{}
+\end{verbatim}
+
+\section{Equations}
+\label{sec:eqs}
+This section gives some examples of writing mathematical equations in your thesis.
+
+Maxwell's equations read:
+\begin{subequations}
+    \label{eq:maxwell}
+    \begin{align}[left=\empheqlbrace]
+    \nabla\cdot \bm{D} & = \rho, \label{eq:maxwell1} \\
+    \nabla \times \bm{E} +  \frac{\partial \bm{B}}{\partial t} & = \bm{0}, \label{eq:maxwell2} \\
+    \nabla\cdot \bm{B} & = 0, \label{eq:maxwell3} \\
+    \nabla \times \bm{H} - \frac{\partial \bm{D}}{\partial t} &= \bm{J}. \label{eq:maxwell4}
+    \end{align}
+\end{subequations}
+
+Equation~\eqref{eq:maxwell} is automatically labeled by \texttt{cleveref},
+as well as Equation~\eqref{eq:maxwell1} and Equation~\eqref{eq:maxwell3}.
+Thanks to the \verb|cleveref| package, there is no need to use \verb|\eqref|.
+Remember that Equations have to be numbered only if they are referenced in the text.
+
+Equations~\eqref{eq:maxwell_multilabels1}, \eqref{eq:maxwell_multilabels2}, \eqref{eq:maxwell_multilabels3}, and \eqref{eq:maxwell_multilabels4} show again Maxwell's equations without brace:
+\begin{align}
+    \nabla\cdot \bm{D} & = \rho, \label{eq:maxwell_multilabels1} \\
+    \nabla \times \bm{E} +  \frac{\partial \bm{B}}{\partial t} &= \bm{0}, \label{eq:maxwell_multilabels2} \\
+    \nabla\cdot \bm{B} & = 0, \label{eq:maxwell_multilabels3} \\
+    \nabla \times \bm{H} - \frac{\partial \bm{D}}{\partial t} &= \bm{J} \label{eq:maxwell_multilabels4}.
+\end{align}
+
+Equation~\eqref{eq:maxwell_singlelabel} is the same as before,
+but with just one label:
+\begin{equation}
+    \label{eq:maxwell_singlelabel}
+    \left\{
+    \begin{aligned}
+    \nabla\cdot \bm{D} & = \rho, \\
+    \nabla \times \bm{E} +  \frac{\partial \bm{B}}{\partial t} &= \bm{0},\\
+    \nabla\cdot \bm{B} & = 0, \\
+    \nabla \times \bm{H} - \frac{\partial \bm{D}}{\partial t} &= \bm{J}.
+    \end{aligned}
+    \right.
+\end{equation}
+
+\section{Figures, Tables and Algorithms}
+Figures, Tables and Algorithms have to contain a Caption that describe their content, and have to be properly reffered in the text.
+
+\subsection{Figures}
+\label{subsec:figures}
+
+For including pictures in your text you can use \texttt{TikZ} for high-quality hand-made figures,
+or just include them as usual with the command
+\begin{verbatim}
+\includegraphics[options]{filename.xxx}
+\end{verbatim}
+Here xxx is the correct format, e.g. \verb|.png|, \verb|.jpg|, \verb|.eps|, \dots.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{logo_polimi_scritta.eps}
+    \caption{Caption of the Figure to appear in the List of Figures.}
+    \label{fig:quadtree}
+\end{figure}
+
+Thanks to the \texttt{\textbackslash subfloat} command, a single figure, such as Figure~\ref{fig:quadtree},
+can contain multiple sub-figures with their own caption and label, e.g. \color{black} Figure~\ref{fig:polimi_logo1} and Figure~\ref{fig:polimi_logo2}. 
+
+\begin{figure}[H]
+    \centering
+    \subfloat[One PoliMi logo.\label{fig:polimi_logo1}]{
+        \includegraphics[scale=0.5]{Images/logo_polimi_scritta.eps}
+    }
+    \quad
+    \subfloat[Another one PoliMi logo.\label{fig:polimi_logo2}]{
+        \includegraphics[scale=0.5]{Images/logo_polimi_scritta2.eps}
+    }
+    \caption[Shorter caption]{This is a very long caption you don't want to appear in the List of Figures.}
+    \label{fig:quadtree2}
+\end{figure}
+
+
+\subsection{Tables}
+\label{subsec:tables}
+
+Within the environments \texttt{table} and  \texttt{tabular} you can create very fancy tables as the one shown in Table~\ref{table:example}.
+\begin{table}[H]
+    \caption*{\textbf{Title of Table (optional)}}
+    \centering 
+    \begin{tabular}{|p{3em} c c c |}
+    \hline
+    \rowcolor{bluepoli!40} % comment this line to remove the color
+     & \textbf{column 1} & \textbf{column 2} & \textbf{column 3} \T\B \\
+    \hline \hline
+    \textbf{row 1} & 1 & 2 & 3 \T\B \\
+    \textbf{row 2} & $\alpha$ & $\beta$ & $\gamma$ \T\B\\
+    \textbf{row 3} & alpha & beta & gamma \B\\
+    \hline
+    \end{tabular}
+    \\[10pt]
+    \caption{Caption of the Table to appear in the List of Tables.}
+    \label{table:example}
+\end{table}
+
+You can also consider to highlight selected columns or rows in order to make tables more readable.
+Moreover, with the use of \texttt{table*} and the option \texttt{bp} it is possible to align them at the bottom of the page. One example is presented in Table~\ref{table:exampleC}. 
+
+\begin{table}[H]
+\centering 
+    \begin{tabular}{|p{3em} | c | c | c | c | c | c|}
+    \hline
+%    \rowcolor{bluepoli!40}
+     & \textbf{column1} & \textbf{column2} & \textbf{column3} & \textbf{column4} & \textbf{column5} & \textbf{column6} \T\B \\
+    \hline \hline
+    \textbf{row1} & 1 & 2 & 3 & 4 & 5 & 6 \T\B\\
+    \textbf{row2} & a & b & c & d & e & f \T\B\\
+    \textbf{row3} & $\alpha$ & $\beta$ & $\gamma$ & $\delta$ & $\phi$ & $\omega$ \T\B\\
+    \textbf{row4} & alpha & beta & gamma & delta & phi & omega \B\\
+    \hline
+    \end{tabular}
+    \\[10pt]
+    \caption{Highlighting the columns}
+    \label{table:exampleC}
+\end{table}
+
+\begin{table}[H]
+\centering 
+    \begin{tabular}{|p{3em} c c c c c c|}
+    \hline
+%    \rowcolor{bluepoli!40}
+     & \textbf{column1} & \textbf{column2} & \textbf{column3} & \textbf{column4} & \textbf{column5} & \textbf{column6} \T\B \\
+    \hline \hline
+    \textbf{row1} & 1 & 2 & 3 & 4 & 5 & 6 \T\B\\
+    \hline
+    \textbf{row2} & a & b & c & d & e & f \T\B\\
+    \hline
+    \textbf{row3} & $\alpha$ & $\beta$ & $\gamma$ & $\delta$ & $\phi$ & $\omega$ \T\B\\
+    \hline
+    \textbf{row4} & alpha & beta & gamma & delta & phi & omega \B\\
+    \hline
+    \end{tabular}
+    \\[10pt]
+    \caption{Highlighting the rows}
+    \label{table:exampleR}
+\end{table}
+
+\subsection{Algorithms}
+\label{subsec:algorithms}
+
+Pseudo-algorithms can be written in \LaTeX{} with the \texttt{algorithm} and \texttt{algorithmic} packages.
+An example is shown in Algorithm~\ref{alg:var}.
+\begin{algorithm}[H]
+    \label{alg:example}
+    \caption{Name of the Algorithm}
+    \label{alg:var}
+    \label{protocol1}
+    \begin{algorithmic}[1]
+    \STATE Initial instructions
+    \FOR{$for-condition$}
+    \STATE{Some instructions}
+    \IF{$if-condition$}
+    \STATE{Some other instructions}
+    \ENDIF
+    \ENDFOR
+    \WHILE{$while-condition$}
+    \STATE{Some further instructions}
+    \ENDWHILE
+    \STATE Final instructions
+    \end{algorithmic}
+\end{algorithm} 
+
+\vspace{5mm}
+
+\section{Theorems, propositions and lists}
+
+\subsection{Theorems}
+Theorems have to be formatted as:
+\begin{theorem}
+\label{a_theorem}
+Write here your theorem. 
+\end{theorem}
+\textit{Proof.} If useful you can report here the proof.
+
+\subsection{Propositions}
+Propositions have to be formatted as:
+\begin{proposition}
+Write here your proposition.
+\end{proposition}
+
+\subsection{Lists}
+How to  insert itemized lists:
+\begin{itemize}
+    \item first item;
+    \item second item.
+\end{itemize}
+How to insert numbered lists:
+\begin{enumerate}
+    \item first item;
+    \item second item.
+\end{enumerate}
+
+\section{Use of copyrighted material}
+
+Each student is responsible for obtaining copyright permissions, if necessary, to include published material in the thesis.
+This applies typically to third-party material published by someone else.
+
+\section{Plagiarism}
+
+You have to be sure to respect the rules on Copyright and avoid an involuntary plagiarism.
+It is allowed to take other persons' ideas only if the author and his original work are clearly mentioned.
+As stated in the Code of Ethics and Conduct, Politecnico di Milano \textit{promotes the integrity of research,
+condemns manipulation and the infringement of intellectual property}, and gives opportunity to all those
+who carry out research activities to have an adequate training on ethical conduct and integrity while doing research.
+To be sure to respect the copyright rules, read the guides on Copyright legislation and citation styles available
+at:
+\begin{verbatim}
+https://www.biblio.polimi.it/en/tools/courses-and-tutorials
+\end{verbatim}
+You can also attend the courses which are periodically organized on "Bibliographic citations and bibliography management".
+
+\section{Bibliography and citations}
+Your thesis must contain a suitable Bibliography which lists all the sources consulted on developing the work.
+The list of references is placed at the end of the manuscript after the chapter containing the conclusions.
+We suggest to use the BibTeX package and save the bibliographic references  in the file \verb|Thesis_bibliography.bib|.
+This is indeed a database containing all the information about the references. To cite in your manuscript, use the \verb|\cite{}| command as follows:
+\\
+\textit{Here is how you cite bibliography entries: \cite{knuth74}, or multiple ones at once: \cite{knuth92,lamport94}}.
+\\
+The bibliography and list of references are generated automatically by running BibTeX \cite{bibtex}.
+
+\chapter{Conclusions and future developments}
+\label{ch:conclusions}%
+A final chapter containing the main conclusions of your research/study
+and possible future developments of your work have to be inserted in this chapter.
+
+%-------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%-------------------------------------------------------------------------
+
+\addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
+\bibliography{Thesis_bibliography} % The references information are stored in the file named "Thesis_bibliography.bib"
+
+%-------------------------------------------------------------------------
+%	APPENDICES
+%-------------------------------------------------------------------------
+
+\cleardoublepage
+\addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
+\appendix
+\chapter{Appendix A}
+If you need to include an appendix to support the research in your thesis, you can place it at the end of the manuscript.
+An appendix contains supplementary material (figures, tables, data, codes, mathematical proofs, surveys, \dots)
+which supplement the main results contained in the previous chapters.
+
+\chapter{Appendix B}
+It may be necessary to include another appendix to better organize the presentation of supplementary material.
+
+
+% LIST OF FIGURES
+\listoffigures
+
+% LIST OF TABLES
+\listoftables
+
+% LIST OF SYMBOLS
+% Write out the List of Symbols in this page
+\chapter*{List of Symbols} % You have to include a chapter for your list of symbols (
+\begin{table}[H]
+    \centering
+    \begin{tabular}{lll}
+        \textbf{Variable} & \textbf{Description} & \textbf{SI unit} \\\hline\\[-9px]
+        $\bm{u}$ & solid displacement & m \\[2px]
+        $\bm{u}_f$ & fluid displacement & m \\[2px]
+    \end{tabular}
+\end{table}
+
+% ACKNOWLEDGEMENTS
+\chapter*{Acknowledgements}
+Here you might want to acknowledge someone.
+
+\cleardoublepage
+
+\end{document}
